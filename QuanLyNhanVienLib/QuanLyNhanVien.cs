@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QuanLyNhanVien1
+﻿
+namespace QuanLyNhanVienLib
 {
-    internal class QuanLyNhanVien
+    public class QuanLyNhanVien
     {
+        
+
         // Các thuộc tính private=
-        public int maNV { get; set; }
+        public int maNV { get => maNV; set => maNV = value; }
         public string tenNV { get; set; }
         public DateTime ngaysinh { get; set; }
         public string gioitinh { get; set; }
@@ -17,34 +14,36 @@ namespace QuanLyNhanVien1
         public DateTime ngayvaolam { get; set; }
         public string bangcap { get; set; }
         public string hinhthucNV { get; set; }
+        public string dieukien { get; set; }
+        public int ngayNghi { get; set; }
 
 
-        // Constructor mặc định
-        public QuanLyNhanVien()
-        {
+        //// Constructor mặc định
+        //public QuanLyNhanVien()
+        //{
 
-        }
+        //}
 
 
-        // Constructor có truyền thông số
-        public QuanLyNhanVien(int maNV, string tenNV, DateTime ngaySinh, bool gioiTinh, string diaChi, DateTime ngayVaoLam, string bangCap, string hinhThucNV)
-        {
-            // Kiểm tra năm sinh 
-            if (ngaySinh.Year > DateTime.Now.Year - 18)
-            {
-                throw new ArgumentException("Năm sinh không hợp lệ");
-            }
+        //// Constructor có truyền thông số
+        //public QuanLyNhanVien(int maNV, string tenNV, DateTime ngaySinh, bool gioiTinh, string diaChi, DateTime ngayVaoLam, string bangCap, string hinhThucNV)
+        //{
+        //    // Kiểm tra năm sinh 
+        //    if (ngaySinh.Year > DateTime.Now.Year - 18)
+        //    {
+        //        throw new ArgumentException("Năm sinh không hợp lệ");
+        //    }
 
-        
-            MaNV = maNV;
-            TenNV = tenNV;
-            NgaySinh = ngaySinh;
-            GioiTinh = gioiTinh;
-            DiaChi = diaChi;
-            NgayVaoLam = ngayVaoLam;
-            BangCap = bangCap;
-            HinhThucNV = hinhThucNV;
-        }
+
+        //    MaNV = maNV;
+        //    TenNV = tenNV;
+        //    NgaySinh = ngaySinh;
+        //    GioiTinh = gioiTinh;
+        //    DiaChi = diaChi;
+        //    NgayVaoLam = ngayVaoLam;
+        //    BangCap = bangCap;
+        //    HinhThucNV = hinhThucNV;
+        //}
 
 
         /*Hàm tính thời gian làm việc 
@@ -88,21 +87,12 @@ namespace QuanLyNhanVien1
           trả về giá trị : ngày nghỉ phép hợp lệ của nhân viên 
           Ngoài ra : đã bổ sung 2 quy định từ công ty 
         */
-        public double TinhPhep(string dieuKien, int ngayNghi )
+        public double TinhPhep(string dieuKien, int ngayNghi)
         {
-            /* 
-			Nếu thâm niên >= 12 thì 
-			    1. Điều kiện bình thương có ngayphep là 12
-			    2. điều kiện đặc biệt có ngayphep là 14
-			    3. điều kiện nặng nhọc có ngày phép là 16
-			Ngược lại thâm niên <12 thì ngayphep = thamNien
-			    nếu nghỉ quá ngày phép thì tiền phạt = bằng 20% lương tháng
-			    nếu ngày nghỉ <0 (tức là đi làm thêm ca) thì những ngày làm thêm lương = 200% lương thông thường
-        */
-
-            int thamNien = DateTime.Now.Year - NgayVaoLam.Year;
+            int thamNien = DateTime.Now.Year - ngayvaolam.Year;
             double ngayPhep = 0;
-            int luongThang = TinhLuong();
+            double luongThang = TinhLuong();
+
             if (thamNien >= 12)
             {
                 switch (dieuKien)
@@ -126,15 +116,15 @@ namespace QuanLyNhanVien1
             if (ngayNghi > ngayPhep)
             {
                 return luongThang * 0.2;
-
             }
             else if (ngayNghi < 0)
             {
                 return luongThang * 2;
             }
-            
-        }
 
+            // Return a default value if none of the conditions are satisfied
+            return 0;
+        }
 
         /*
          Hàm tính phụ cấp/ trợ cấp của nhân viên 
@@ -142,7 +132,7 @@ namespace QuanLyNhanVien1
          trả về giá trị : số tiền đã được phụ cấp        
        */
 
-        public double TinhPhuCap()
+        public double TinhPhuCap(string BangCap ,string HinhThucNV)
         {
 
             /* 
@@ -166,7 +156,7 @@ namespace QuanLyNhanVien1
             Dòng này để trong hàm tính Lương nhé!
             luongThang = LCB + luongThamNien + luongHocVi + luongChucDanh + luongPhongBan;           
             */
-            int luongThang = TinhLuong();
+            
 
             // Phụ cấp theo học vị
             int phuCapHocVi = 0;
@@ -231,11 +221,7 @@ namespace QuanLyNhanVien1
             return phuCapHocVi + phuCapChucDanh + phuCapPhongBan;
         }
 
-        /*
-         Hàm tính lương parttime của nhân viên parttime
-            Nhận 1 giá trị đầu vào : loại CV 
-            trả về giá trị : lương 1 giờ của nhân viên      
-       */
+
         public double TinhLuongParttime(string loaiCV)
         {
             /*
@@ -255,7 +241,7 @@ namespace QuanLyNhanVien1
                 default:
                     return 0;
             }
-            double soGioLam = TinhWorkingTime(ngayvaolam, DateTime.Now) - TinhPhep();
+            double soGioLam = TinhWorkingTime(ngayvaolam, DateTime.Now) - TinhPhep(dieukien, ngayNghi);
             double luong = luongParttime * soGioLam;
             return luong;
         }
@@ -269,8 +255,8 @@ namespace QuanLyNhanVien1
              luong = luongGio * gioLam + Phucap - thue;
             */
             double luongGio = 23000;
-            double soGioLam = TinhWorkingTime(ngayvaolam, DateTime.Now)-TinhPhep();
-            double luong = luongGio * soGioLam + TinhPhuCap() - TinhThue();
+            double soGioLam = TinhWorkingTime(ngayvaolam, DateTime.Now) - TinhPhep(dieukien, ngayNghi);
+            double luong = luongGio * soGioLam + TinhPhuCap(bangcap ,hinhthucNV) - TinhThue();
             return luong;
         }
 
@@ -293,72 +279,6 @@ namespace QuanLyNhanVien1
             return thue;
         }
 
-        // Hàm Input từ buoi 1
-        public void Input()
-        {
-            Console.WriteLine("Nhập thông tin nhân viên:");
-            Console.Write("Mã nhân viên: ");
-            MaNV = int.Parse(Console.ReadLine());
-            Console.Write("Họ tên: ");
-            TenNV = Console.ReadLine();
-            Console.Write("Ngày sinh (dd/mm/yyyy): ");
-            NgaySinh = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", null);
-            Console.Write("Giới tính (Nam/Nu): ");
-            GioiTinh = Console.ReadLine().ToLower() == "nam";
-            Console.Write("Địa chỉ: ");
-            DiaChi = Console.ReadLine();
-            Console.Write("Ngày vào làm (dd/mm/yyyy): ");
-            NgayVaoLam = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", null);
-            Console.Write("Bằng cấp: ");
-            BangCap = Console.ReadLine();
-            Console.Write("Hình thức làm việc: ");
-            HinhThucNV = Console.ReadLine();
-        }
-
-        // Hàm PrintInfor từ buổi 1
-        public void PrintInfor()
-        {
-            Console.WriteLine("Thông tin nhân viên:");
-            Console.WriteLine($"Mã nhân viên: {MaNV}");
-            Console.WriteLine($"Họ tên: {TenNV}");
-            Console.WriteLine($"Ngày sinh: {NgaySinh.Day}/{NgaySinh.Month}/{NgaySinh.Year}");
-            Console.WriteLine($"Giới tính: {(GioiTinh ? "Nam" : "Nữ")}");
-            Console.WriteLine($"Địa chỉ: {DiaChi}");
-            Console.WriteLine($"Ngày vào làm: {NgayVaoLam.Day}/{NgayVaoLam.Month}/{NgayVaoLam.Year}");
-            Console.WriteLine($"Bằng cấp: {BangCap}");
-            Console.WriteLine($"Hình thức làm việc: {HinhThucNV}");
-        }
-
-        // Hàm SetTrinhDo
-        public bool SetTrinhDo(string trinhDo)
-        {
-            
-            if (trinhDo == "Đại học" || trinhDo == "Cao đẳng" || trinhDo == "12/12")
-            {
-                BangCap = trinhDo;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         
-        public bool SetHinhThucNV(string hinhThucNV)
-        {
-            // Kiểm tra điều kiện và thực hiện
-            if (hinhThucNV == "Nhân viên" || hinhThucNV == "Phó trưởng phòng" || hinhThucNV == "Trưởng phòng")
-            {
-                HinhThucNV = hinhThucNV;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
-
 }
-
