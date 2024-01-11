@@ -10,7 +10,7 @@ namespace QuanLyNhanVien1
     {
         static void Main(string[] args)
         {
-            NhanVien nhanVien = new NhanVien();
+            QuanLyNhanVien nhanVien = new QuanLyNhanVien();
             nhanVien.Input();
             nhanVien.PrintInfor();
             Console.WriteLine($"Lương: {nhanVien.TinhLuong()}");

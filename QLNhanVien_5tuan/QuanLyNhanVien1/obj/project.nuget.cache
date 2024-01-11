@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fcaAD9tffT7UqqrBig8+gatXyStq7Z1d7PUA0hXqtPxnuMINORp0NL+IfJpPsGHdtlMjnTK42Z968YQeLNIl2Q==",
+  "dgSpecHash": "C1HJaK8dTqOee74jYXKYr0t0JFBudlakO9KMXYjCqfkBpR9y0ERRxyZWmKaLF5UUf3JqEfVZYEG5Ry+9+qnV3w==",
   "success": true,
-  "projectFilePath": "F:\\Đại Học\\ky5(dau2024)\\ĐBCLPM\\ThucHanh\\QLNhanVien_5tuan\\QuanLyNhanVien1\\QuanLyNhanVien1.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\user\\.nuget\\packages\\microsoft.dotnet.ilcompiler\\8.0.0\\microsoft.dotnet.ilcompiler.8.0.0.nupkg.sha512",
-    "C:\\Users\\user\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.0\\microsoft.net.illink.tasks.8.0.0.nupkg.sha512",
-    "C:\\Users\\user\\.nuget\\packages\\runtime.win-x64.microsoft.dotnet.ilcompiler\\8.0.0\\runtime.win-x64.microsoft.dotnet.ilcompiler.8.0.0.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\SV\\Desktop\\New folder\\DBCLPM_.NET\\QLNhanVien_5tuan\\QuanLyNhanVien1\\QuanLyNhanVien1.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
